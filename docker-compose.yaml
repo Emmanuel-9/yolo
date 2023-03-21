@@ -9,7 +9,7 @@ services:
     env_file:
       - ./backend/.env
     networks:
-      - yolo-network
+      - yolo-client
     depends_on:
       - db  
   
