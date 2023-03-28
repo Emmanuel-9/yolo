@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM orega/yolo:1.1
 WORKDIR /usr/app
 COPY package*.json ./
 RUN npm ci
