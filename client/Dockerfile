@@ -1,4 +1,4 @@
-FROM node:13.12.0
+FROM orega/yolo:v1.0.0
 WORKDIR /usr/app
 COPY package*.json ./
 RUN npm install
