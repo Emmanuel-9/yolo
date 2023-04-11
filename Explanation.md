@@ -153,3 +153,40 @@ The playbook.yml file defines the tasks that Ansible will execute on the managed
       debug:
         var: app_response.content
 ```
+
+# IP 4 ORCHESTRATION
+
+## secret.yml file
+
+- This file is used to store my environment varaiable MONGO_DB_URI.
+
+## client-k8s.yml file
+
+- This file contains kubernetes declarative to deploy and create a service client/frontend pod
+
+## backend-k8s.yml
+
+- This file contains kubernetes declarative to deploy and create a service for backend/backend pod
+- It is pod where StatefulSets will be implemmented because backend-k8s.yml pulls yolo backend image that containes the mongodb implememntation
+- Volumes will also be implemmented in this file to persits data incase a pod is destroyed
+
+## k8storage.yml
+
+- In this configuration, we add a volumeMounts section to the container configuration, which specifies the name and mount path for the volume.
+- We also add a volumes section to the pod template, which defines a PersistentVolumeClaim named mongo-data-claim.
+
+## Adding The files to Kuberntes Cluster
+
+- `kubectl apply -f filename.yml`
+- The above command is used to the three files starting with the secret file `secret.yml` because it contains the secret key the backend-k8s requires
+
+## How To Display the Client Side on the browser with in the format `ipaddress:port`
+
+- First is to get the ip adress of the of kubernetes cluster
+- Command `kubectl get node -o wide`
+- This will prompt INTERNAL-IP of the minikube
+- It is this ip that get prepended to the nodePort declared as in client service
+- The Service Client Code is in the `client-k8s.yml`
+
+
+
