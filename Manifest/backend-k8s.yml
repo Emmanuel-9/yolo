@@ -18,14 +18,14 @@ spec:
     spec:
       containers:
         - name: yolobackend
-          image: 
+          image: orega/yolo:1.1
           ports:
             - containerPort: 5000
           env:
             - name: MONGODB_URI
               valueFrom:
                 secretKeyRef:
-                  name: mongo-secret-uri
+                  name: mongo-secret
                   key: MONGODB_URI
           volumeMounts:
             - name: mongo-data
@@ -39,7 +39,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: yolobackend-service
+  name: backend-service
 spec:
   selector:
     app.kubernetes.io/name: server
