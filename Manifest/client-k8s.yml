@@ -1,0 +1,38 @@
+# declarative to deploy Yolo Client and its Service
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+  labels:
+    app: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    spec:
+      containers:
+        - name: 
+          image: 
+          ports:
+            - containerPort: 3000
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: yoloclient-service
+spec:
+  type: NodePort
+  selector:
+    app.kubernetes.io/name: client
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+      nodePort: 30100
