@@ -1,0 +1,49 @@
+# declarative to deploy backend and its Service
+# Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+  labels:
+    app: server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: server
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      containers:
+        - name: yolobackend
+          image: 
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-secret-uri
+                  key: MONGODB_URI
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: mongo-data-claim
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: yolobackend-service
+spec:
+  selector:
+    app.kubernetes.io/name: server
+  ports:
+    - protocol: TCP
+      port: 5000
+      targetPort: 5000
